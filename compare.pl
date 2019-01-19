@@ -1,7 +1,7 @@
 #!/usr/bin/perl 
 
 use strict;
-use warnings;
+#use warnings;
 use Digest::MD5 qw(md5 md5_hex md5_base64);
 use Win32::Console::ANSI;
 use Term::ANSIScreen qw/:color /;
@@ -26,7 +26,7 @@ my $BwE = (colored ['bold green'], qq{
 |             |    |  _//  \\/ \\/  /|  __)_                |
 |             |    |   \\\\        //       \\               |
 |             |______  / \\__/\\__//______  /               |
-|                    \\/PS4 NOR Comparator\\/v1.0           |
+|                    \\/PS4 NOR Comparator\\/v1.1           |
 |        		                                  |
 ===========================================================\n\n});
 print $BwE;
@@ -49,6 +49,7 @@ print "1. Compare Offsets (Result - SKU - Filename)\n";
 print "2. Compare Offsets MD5 (MD5 Hash - Filename)\n";
 print "3. Compare Offsets Entropy (Entropy - Filename)\n";
 print "4. Compare File MD5 (MD5 Hash - Filename)\n";
+print "5. Double Comparison (Result 1 - Result 2 - Filename)\n";
 
 print "\nChoose Option: "; 
 my $option = <STDIN>; chomp $option; 
@@ -88,7 +89,7 @@ my $opensysfile = system("output.txt");
 goto EOF;
 }  
 
-elsif ($option eq "2") { ### Calculating MD5's... 
+elsif ($option eq "2") { 
 
 print "Enter Offset: "; 
 my $offset = <STDIN>; chomp $offset; 
@@ -98,7 +99,7 @@ my $length = <STDIN>; chomp $length;
 $offset = hex($offset);
 $length = hex($length);
 
-foreach my $file (@files) {
+foreach my $file (@files) { ### Calculating MD5's... 
 open(my $bin, "<", $file) or die $!; binmode $bin;
 
 seek($bin, $offset, 0);
@@ -167,6 +168,44 @@ print "Mission Complete!";
 my $opensysfile = system("output.txt");
 goto EOF;
 } 
+
+elsif ($option eq "5") {
+
+print "Enter Offset 1: "; 
+my $offset = <STDIN>; chomp $offset; 
+print "Enter Length 1: "; 
+my $length = <STDIN>; chomp $length; 
+print "\nEnter Offset 2: "; 
+my $offset2 = <STDIN>; chomp $offset; 
+print "Enter Length 2: "; 
+my $length2 = <STDIN>; chomp $length; 
+
+$offset = hex($offset);
+$length = hex($length);
+$offset2 = hex($offset2);
+$length2 = hex($length2);
+
+foreach my $file (@files) { ### Calculating Results... 
+open(my $bin, "<", $file) or die $!; binmode $bin;
+
+seek($bin, $offset, 0);
+read($bin, my $yeah, $length);
+$yeah = uc ascii_to_hex($yeah); 
+
+seek($bin, $offset2, 0);
+read($bin, my $yeah2, $length2);
+$yeah2 = uc ascii_to_hex($yeah2); 
+
+print F "$yeah - $yeah2 - $file\n";
+
+}
+close(F); 
+print $clear_screen;
+print $BwE;
+print "Mission Complete!";
+my $opensysfile = system("output.txt");
+goto EOF;
+}  
 
 else {goto EOF;}
 
