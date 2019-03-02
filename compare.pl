@@ -26,7 +26,7 @@ my $BwE = (colored ['bold green'], qq{
 |             |    |  _//  \\/ \\/  /|  __)_                |
 |             |    |   \\\\        //       \\               |
 |             |______  / \\__/\\__//______  /               |
-|                    \\/PS4 NOR Comparator\\/v1.1           |
+|                    \\/PS4 NOR Comparator\\/v1.2           |
 |        		                                  |
 ===========================================================\n\n});
 print $BwE;
@@ -45,7 +45,7 @@ if ( @files <= 1 ) {
 
 open(F,'>', "output.txt") || die $!;
 
-print "1. Compare Offsets (Result - SKU - Filename)\n";
+print "1. Compare Offsets (Result - FW / SKU - Filename)\n";
 print "2. Compare Offsets MD5 (MD5 Hash - Filename)\n";
 print "3. Compare Offsets Entropy (Entropy - Filename)\n";
 print "4. Compare File MD5 (MD5 Hash - Filename)\n";
@@ -68,6 +68,8 @@ my $length = <STDIN>; chomp $length;
 $offset = hex($offset);
 $length = hex($length);
 
+print "\n"; 
+
 foreach my $file (@files) { ### Calculating Results... 
 open(my $bin, "<", $file) or die $!; binmode $bin;
 
@@ -75,10 +77,38 @@ seek($bin, $offset, 0);
 read($bin, my $yeah, $length);
 $yeah = uc ascii_to_hex($yeah); 
 
+my $whatistheversion;
+
+seek($bin, 0x1C906A, 0); 
+read($bin, my $FW_Version2, 0x2);
+$FW_Version2 = uc ascii_to_hex($FW_Version2); 
+if ($FW_Version2 eq "FFFF")
+{
+	seek($bin, 0x1CA606, 0); 
+	read($bin, my $FW_Version1, 0x2);
+	$FW_Version1 = uc ascii_to_hex($FW_Version1); 
+	if ($FW_Version1 eq "FFFF")
+	{
+		$whatistheversion = "N/A";
+	} 
+	else
+	{
+		$FW_Version1 = unpack "H*", reverse pack "H*", $FW_Version1;
+		$FW_Version1 = hex($FW_Version1); $FW_Version1 = uc sprintf("%x", $FW_Version1);
+		$whatistheversion = substr($FW_Version1, 0, 1) . "." . substr($FW_Version1, 1);
+	}
+} 
+else
+{
+	$FW_Version2 = unpack "H*", reverse pack "H*", $FW_Version2;
+	$FW_Version2 = hex($FW_Version2); $FW_Version2 = uc sprintf("%x", $FW_Version2);
+	$whatistheversion = substr($FW_Version2, 0, 1) . "." . substr($FW_Version2, 1);
+}
+
 seek($bin, 0x1C8041, 0);
 read($bin, my $SKU, 0xA);
 
-print F "$yeah - $SKU - $file\n";
+print F "$yeah - $whatistheversion / $SKU - $file\n";
 
 }
 close(F); 
@@ -98,6 +128,8 @@ my $length = <STDIN>; chomp $length;
 
 $offset = hex($offset);
 $length = hex($length);
+
+print "\n"; 
 
 foreach my $file (@files) { ### Calculating MD5's... 
 open(my $bin, "<", $file) or die $!; binmode $bin;
@@ -129,6 +161,8 @@ my $length = <STDIN>; chomp $length;
 $offset = hex($offset);
 $length = hex($length);
 
+print "\n"; 
+
 foreach my $file (@files) { ### Calculating Entropy...    
 open(my $bin, "<", $file) or die $!; binmode $bin;
 
@@ -152,6 +186,8 @@ goto EOF;
 } 
 
 elsif ($option eq "4") {
+
+print "\n"; 
 
 foreach my $file (@files) { ### Calculating MD5's...    
 open(my $bin, "<", $file) or die $!; binmode $bin;
@@ -184,6 +220,8 @@ $offset = hex($offset);
 $length = hex($length);
 $offset2 = hex($offset2);
 $length2 = hex($length2);
+
+print "\n"; 
 
 foreach my $file (@files) { ### Calculating Results... 
 open(my $bin, "<", $file) or die $!; binmode $bin;
