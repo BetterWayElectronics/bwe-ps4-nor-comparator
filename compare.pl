@@ -19,6 +19,8 @@ use Smart::Comments;
 my $CONSOLE=Win32::Console->new;
 $CONSOLE->Title('BwE PS4 NOR Comparator');
 
+START:
+
 my $BwE = (colored ['bold green'], qq{
 ===========================================================
 |            __________          __________               |
@@ -26,7 +28,7 @@ my $BwE = (colored ['bold green'], qq{
 |             |    |  _//  \\/ \\/  /|  __)_                |
 |             |    |   \\\\        //       \\               |
 |             |______  / \\__/\\__//______  /               |
-|                    \\/PS4 NOR Comparator\\/v1.2           |
+|                    \\/PS4 NOR Comparator\\/v1.3           |
 |        		                                  |
 ===========================================================\n\n});
 print $BwE;
@@ -45,11 +47,12 @@ if ( @files <= 1 ) {
 
 open(F,'>', "output.txt") || die $!;
 
-print "1. Compare Offsets (Result - FW / SKU - Filename)\n";
-print "2. Compare Offsets MD5 (MD5 Hash - Filename)\n";
+print "1. Compare Offsets (Result - FW & SKU - Filename)\n";
+print "2. Compare Offsets MD5 (MD5 Hash - FW & SKU - Filename)\n";
 print "3. Compare Offsets Entropy (Entropy - Filename)\n";
 print "4. Compare File MD5 (MD5 Hash - Filename)\n";
 print "5. Double Comparison (Result 1 - Result 2 - Filename)\n";
+print "6. Dynamic MD5 Calculation (Size - MD5 - FW & SKU - Filename)\n";
 
 print "\nChoose Option: "; 
 my $option = <STDIN>; chomp $option; 
@@ -140,7 +143,39 @@ $yeah = uc ascii_to_hex($yeah);
 
 my $yeah_MD5 = uc md5_hex($yeah);
 
-print F "$yeah_MD5 - $file\n";
+my $whatistheversion;
+
+seek($bin, 0x1C906A, 0); 
+read($bin, my $FW_Version2, 0x2);
+$FW_Version2 = uc ascii_to_hex($FW_Version2); 
+if ($FW_Version2 eq "FFFF")
+{
+	seek($bin, 0x1CA606, 0); 
+	read($bin, my $FW_Version1, 0x2);
+	$FW_Version1 = uc ascii_to_hex($FW_Version1); 
+	if ($FW_Version1 eq "FFFF")
+	{
+		$whatistheversion = "N/A";
+	} 
+	else
+	{
+		$FW_Version1 = unpack "H*", reverse pack "H*", $FW_Version1;
+		$FW_Version1 = hex($FW_Version1); $FW_Version1 = uc sprintf("%x", $FW_Version1);
+		$whatistheversion = substr($FW_Version1, 0, 1) . "." . substr($FW_Version1, 1);
+	}
+} 
+else
+{
+	$FW_Version2 = unpack "H*", reverse pack "H*", $FW_Version2;
+	$FW_Version2 = hex($FW_Version2); $FW_Version2 = uc sprintf("%x", $FW_Version2);
+	$whatistheversion = substr($FW_Version2, 0, 1) . "." . substr($FW_Version2, 1);
+}
+
+seek($bin, 0x1C8041, 0);
+read($bin, my $SKU, 0xA);
+
+
+print F "$yeah_MD5 - $whatistheversion / $SKU - $file\n";
 
 }
 close(F); 
@@ -212,9 +247,9 @@ my $offset = <STDIN>; chomp $offset;
 print "Enter Length 1: "; 
 my $length = <STDIN>; chomp $length; 
 print "\nEnter Offset 2: "; 
-my $offset2 = <STDIN>; chomp $offset; 
+my $offset2 = <STDIN>; chomp $offset2; 
 print "Enter Length 2: "; 
-my $length2 = <STDIN>; chomp $length; 
+my $length2 = <STDIN>; chomp $length2; 
 
 $offset = hex($offset);
 $length = hex($length);
@@ -245,9 +280,92 @@ my $opensysfile = system("output.txt");
 goto EOF;
 }  
 
+elsif ($option eq "6") {
+
+print "Enter Length Location Offset: "; 
+my $offset = <STDIN>; chomp $offset; 
+print "\nEnter Length Location Offset Length: "; 
+my $length = <STDIN>; chomp $length; 
+print "\nEnter MD5 Area Starting Offset: "; 
+my $offset2 = <STDIN>; chomp $offset2; 
+
+$offset = hex($offset);
+$length = hex($length);
+$offset2 = hex($offset2);
+
+print "\n"; 
+
+foreach my $file (@files) { ### Calculating Results... 
+open(my $bin, "<", $file) or die $!; binmode $bin;
+
+seek($bin, $offset, 0); 
+read($bin, my $DynSize, $length); 
+$DynSize = uc ascii_to_hex($DynSize);
+$DynSize = unpack "H*", reverse pack "H*", $DynSize;
+$DynSize = hex($DynSize); $DynSize = uc sprintf("%x", $DynSize);
+
+seek($bin, $offset2, 0); 
+read($bin, my $DynMD5, hex($DynSize));
+$DynMD5 = uc md5_hex($DynMD5);
+
+my $whatistheversion;
+
+seek($bin, 0x1C906A, 0); 
+read($bin, my $FW_Version2, 0x2);
+$FW_Version2 = uc ascii_to_hex($FW_Version2); 
+if ($FW_Version2 eq "FFFF")
+{
+	seek($bin, 0x1CA606, 0); 
+	read($bin, my $FW_Version1, 0x2);
+	$FW_Version1 = uc ascii_to_hex($FW_Version1); 
+	if ($FW_Version1 eq "FFFF")
+	{
+		$whatistheversion = "N/A";
+	} 
+	else
+	{
+		$FW_Version1 = unpack "H*", reverse pack "H*", $FW_Version1;
+		$FW_Version1 = hex($FW_Version1); $FW_Version1 = uc sprintf("%x", $FW_Version1);
+		$whatistheversion = substr($FW_Version1, 0, 1) . "." . substr($FW_Version1, 1);
+	}
+} 
+else
+{
+	$FW_Version2 = unpack "H*", reverse pack "H*", $FW_Version2;
+	$FW_Version2 = hex($FW_Version2); $FW_Version2 = uc sprintf("%x", $FW_Version2);
+	$whatistheversion = substr($FW_Version2, 0, 1) . "." . substr($FW_Version2, 1);
+}
+
+seek($bin, 0x1C8041, 0);
+read($bin, my $SKU, 0xA);
+
+print F "$DynSize - $DynMD5 - $whatistheversion - $SKU - $file\n";
+
+}
+close(F); 
+print $clear_screen;
+print $BwE;
+print "Mission Complete!";
+my $opensysfile = system("output.txt");
+goto EOF;
+}  
+
 else {goto EOF;}
 
 EOF:
+
+print "\n\nGo Again? (y/n): ";
+
+my $again = <STDIN>; chomp $again; 
+
+if ($again ne "y") {
+goto END;
+} else {
+print $clear_screen;
+goto START;
+}
+
+END:
 
 print "\n\nPress Enter to Exit... ";
 while (<>) {
