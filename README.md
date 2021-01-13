@@ -1,4 +1,4 @@
-# BwE PS4 NOR Comparator
+## BwE PS4 NOR Comparator ##
 
 Hello!
 
@@ -9,14 +9,15 @@ Be sure to use Notepad++ as the outputs can be large enough to crash your normal
 
 I think at this point I am finding excuses to release stuff... Also, Remember this program is OPEN SOURCE! Check it out on my GitHub!
 
-Version History:
-1.4 (21/03/20) - Added Dynamic MD5 Comparison & Fine Tuning!
-1.2 (02/03/19) - Added FW/BIOS Versioning & Made Outputs (Slightly) Prettier.
-1.1 (20/01/19) - Whoops! Fixed Bug. Added Additional Comparison.
-1.0 (19/01/19) - First Release!
+![](media/comparator.png)
 
-More Information:
-Compiled Version: https://betterwayelectronics.com.au/downloads/BwE_PS4_NOR_Comparator.rar
-Archive Password: BwE
-Program MD5: 14F98DF9A63DEC2A31695A1301C07974
-GitHub: https://github.com/BetterWayElectronics/ps4-nor-comparator
+### Version History: ###
+- 1.4 (21/03/20) - Added Dynamic MD5 Comparison & Fine Tuning!
+- 1.2 (02/03/19) - Added FW/BIOS Versioning & Made Outputs (Slightly) Prettier.
+- 1.1 (20/01/19) - Whoops! Fixed Bug. Added Additional Comparison.
+- 1.0 (19/01/19) - First Release!
+
+### More Information: ###
+- Compiled Version: https://betterwayelectronics.com.au/downloads/BwE_PS4_NOR_Comparator.rar
+- Archive Password: BwE
+- Program MD5: 14F98DF9A63DEC2A31695A1301C07974
