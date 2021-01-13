@@ -9,7 +9,7 @@ Be sure to use Notepad++ as the outputs can be large enough to crash your normal
 
 I think at this point I am finding excuses to release stuff... Also, Remember this program is OPEN SOURCE! Check it out on my GitHub!
 
-![](media/comparator.png)
+![](comparator.png)
 
 ### Version History: ###
 - 1.4 (21/03/20) - Added Dynamic MD5 Comparison & Fine Tuning!
