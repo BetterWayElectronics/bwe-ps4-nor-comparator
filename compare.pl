@@ -47,13 +47,14 @@ if ( @files <= 1 ) {
 
 open(F,'>', "output.txt") || die $!;
 
-print "1. Compare Offsets\n";
-print "2. Compare Offsets MD5\n";
-print "3. Compare Offsets Entropy\n";
-print "4. Double Offset Comparison\n";
-print "5. Dynamic MD5 Calculation\n";
-print "6. Compare File MD5\n";
-print "7. Compare File Entropy & Byte Count\n";
+print "1. Compare Offsets (Hex)\n";
+print "2. Compare Offsets (ASCII)\n";
+print "3. Compare Offsets MD5\n";
+print "4. Compare Offsets Entropy\n";
+print "5. Double Offset Comparison\n";
+print "6. Dynamic MD5 Calculation\n";
+print "7. Compare File MD5\n";
+print "8. Compare File Entropy & Byte Count\n";
 
 print "\nChoose Option: "; 
 my $option = <STDIN>; chomp $option; 
@@ -145,7 +146,87 @@ goto EOF;
 #******************************************************************************************
 #******************************************************************************************
 
-elsif ($option eq "2") { 
+if ($option eq "2") {
+
+print "Enter Offset: "; 
+my $offset = <STDIN>; chomp $offset; 
+print "Enter Length: "; 
+my $length = <STDIN>; chomp $length; 
+
+print "\nChoose Output Type:\n\n";
+print "1. Output - Version - SKU - Filename\n";
+print "2. Output - Filename\n";
+print "3. Output \n\n";
+print "Your Selection (1-3): ";
+
+my $option1selection = <STDIN>; chomp $option1selection; 
+
+$offset = hex($offset);
+$length = hex($length);
+
+print "\n"; 
+
+foreach my $file (@files) { ### Calculating $file Results... 
+open(my $bin, "<", $file) or die $!; binmode $bin;
+
+seek($bin, $offset, 0);
+read($bin, my $result, $length);
+#$result = uc ascii_to_hex($result); 
+
+seek($bin, 0x1C8041, 0);
+read($bin, my $SKU, 0xA);
+
+my $FW_Version;
+
+seek($bin, 0x1C906A, 0); 
+read($bin, my $FW_Version2, 0x2);
+$FW_Version2 = uc ascii_to_hex($FW_Version2); 
+if ($FW_Version2 eq "FFFF")
+{
+	seek($bin, 0x1CA606, 0); 
+	read($bin, my $FW_Version1, 0x2);
+	$FW_Version1 = uc ascii_to_hex($FW_Version1); 
+	if ($FW_Version1 eq "FFFF")
+	{
+		$FW_Version = "N/A";
+	} 
+	else
+	{
+		$FW_Version1 = unpack "H*", reverse pack "H*", $FW_Version1;
+		$FW_Version1 = hex($FW_Version1); $FW_Version1 = uc sprintf("%x", $FW_Version1);
+		$FW_Version = substr($FW_Version1, 0, 1) . "." . substr($FW_Version1, 1);
+	}
+} 
+else
+{
+	$FW_Version2 = unpack "H*", reverse pack "H*", $FW_Version2;
+	$FW_Version2 = hex($FW_Version2); $FW_Version2 = uc sprintf("%x", $FW_Version2);
+	$FW_Version = substr($FW_Version2, 0, 1) . "." . substr($FW_Version2, 1);
+}
+
+if ($option1selection eq "2") {
+		print F "$result - $file\n";
+	}
+	elsif ($option1selection eq "3") {
+		print F "$result\n";
+	}
+	else {
+		print F "$result - $FW_Version - $SKU - $file\n";
+	}
+
+}
+close(F); 
+print $clear_screen;
+print $BwE;
+print "Mission Complete!";
+my $opensysfile = system("output.txt");
+goto EOF;
+}  
+
+#******************************************************************************************
+#******************************************************************************************
+
+elsif ($option eq "3") { 
 
 print "Enter Offset: "; 
 my $offset = <STDIN>; chomp $offset; 
@@ -227,7 +308,7 @@ goto EOF;
 #******************************************************************************************
 #******************************************************************************************
 
-elsif ($option eq "3") {
+elsif ($option eq "4") {
 
 print "Enter Offset: "; 
 my $offset = <STDIN>; chomp $offset; 
@@ -307,7 +388,7 @@ goto EOF;
 #******************************************************************************************
 #******************************************************************************************
 
-elsif ($option eq "4") {
+elsif ($option eq "5") {
 
 print "Enter Offset 1: "; 
 my $offset = <STDIN>; chomp $offset; 
@@ -397,7 +478,7 @@ goto EOF;
 #******************************************************************************************
 #******************************************************************************************
 
-elsif ($option eq "5") {
+elsif ($option eq "6") {
 
 print "Enter File Size Location Offset: "; 
 my $offset = <STDIN>; chomp $offset; 
@@ -486,7 +567,7 @@ goto EOF;
 #******************************************************************************************
 #******************************************************************************************
 
-elsif ($option eq "6") {
+elsif ($option eq "7") {
 
 print "\nChoose Output Type:\n\n";
 print "1. File MD5 - Version - SKU - Filename\n";
@@ -498,7 +579,7 @@ my $option6selection = <STDIN>; chomp $option6selection;
 
 print "\n";
 
-foreach my $file (@files) { ### Calculating $file's MD5...    
+foreach my $file (@files) { ### Calculating $file MD5...    
 open(my $bin, "<", $file) or die $!; binmode $bin;
 
 my $md5sum = uc Digest::MD5->new->addfile($bin)->hexdigest; 
@@ -556,7 +637,7 @@ goto EOF;
 #******************************************************************************************
 #******************************************************************************************
 
-elsif ($option eq "7") {
+elsif ($option eq "8") {
 
 print "\nChoose Output Type:\n\n";
 print "1. Entropy - FF Count - 00 Count - Version - SKU - Filename\n";
@@ -568,7 +649,7 @@ my $option7selection = <STDIN>; chomp $option7selection;
 
 print "\n"; 
 
-foreach my $file (@files) { ### Calculating Entropy...    
+foreach my $file (@files) { ### Calculating $file Entropy...    
 open(my $bin, "<", $file) or die $!; binmode $bin;
 
 my $len = -s $file;
