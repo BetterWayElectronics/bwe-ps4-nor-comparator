@@ -51,6 +51,7 @@ Note, you do not have to put '0x' in front of offsets, you can if you want but l
 	This will create a statistical output of the entropy and byte count for each dump, depending on how many you have in your folder this will take the longest time to complete.
 
 ### Version History: ###
+- 1.7 (05/06/22) - Fixed MD5 Calculation Mistake (Option 3)
 - 1.6 (23/06/21) - Added ASCII Output, Fixed $file Outputs On Screen.
 - 1.5 (13/01/21) - Added Output Options, Added Statistics, Minor Code Change
 - 1.4 (21/03/20) - Added Dynamic MD5 Comparison & Fine Tuning!
