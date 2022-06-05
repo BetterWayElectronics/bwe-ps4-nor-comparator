@@ -28,7 +28,7 @@ my $BwE = (colored ['bold green'], qq{
 |             |    |  _//  \\/ \\/  /|  __)_                |
 |             |    |   \\\\        //       \\               |
 |             |______  / \\__/\\__//______  /               |
-|                    \\/PS4 NOR Comparator\\/v1.6           |
+|                    \\/PS4 NOR Comparator\\/v1.7           |
 |        		                                  |
 ===========================================================\n\n});
 print $BwE;
@@ -251,7 +251,6 @@ open(my $bin, "<", $file) or die $!; binmode $bin;
 
 seek($bin, $offset, 0);
 read($bin, my $result, $length);
-$result = uc ascii_to_hex($result); 
 
 my $result_MD5 = uc md5_hex($result);
 
