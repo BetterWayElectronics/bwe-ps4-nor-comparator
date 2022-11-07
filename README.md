@@ -42,15 +42,16 @@ Note, you do not have to put '0x' in front of offsets, you can if you want but l
 	different in each dump and the only way to determine the size is to read it at that offset. You then you input the start of the C0010001.BIN which is at a static location of 'C4200'.
 	The output will then be the MD5 of each of the files in each of the dumps.
 
-7. Compare File MD5
-
-	This will create a basic list of the MD5 of every dump.
-	
-8. Compare File Entropy & Byte Count
+7. Compare File Entropy & Byte Count
 
 	This will create a statistical output of the entropy and byte count for each dump, depending on how many you have in your folder this will take the longest time to complete.
 
+8. Compare File MD5
+
+	This will create a basic list of the MD5 of every dump.
+
 ### Version History: ###
+- 1.8 (07/11/22) - Added Filter (By SKU, By Version, All Dumps), Mild Fix To Menu
 - 1.7 (05/06/22) - Fixed MD5 Calculation Mistake (Option 3)
 - 1.6 (23/06/21) - Added ASCII Output, Fixed $file Outputs On Screen.
 - 1.5 (13/01/21) - Added Output Options, Added Statistics, Minor Code Change
