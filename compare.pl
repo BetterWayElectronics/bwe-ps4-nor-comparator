@@ -206,7 +206,7 @@ if ($specific_option eq "1") {
 	
 	@array = @files;
 	
-}
+} else {goto EOF;}
 
 print $clear_screen;
 print $BwE;
@@ -318,7 +318,7 @@ goto EOF;
 #******************************************************************************************
 #******************************************************************************************
 
-if ($option eq "2") {
+elsif ($option eq "2") {
 
 print "Enter Offset: "; 
 my $offset = <STDIN>; chomp $offset; 
@@ -742,76 +742,6 @@ goto EOF;
 elsif ($option eq "7") {
 
 print "\nChoose Output Type:\n\n";
-print "1. File MD5 - Version - SKU - Filename\n";
-print "2. File MD5 - Filename\n";
-print "3. File MD5\n\n";
-print "Your Selection (1-3): ";
-
-my $option6selection = <STDIN>; chomp $option6selection; 
-
-print "\n";
-
-foreach my $file (@array) { ### Calculating $file MD5...    
-open(my $bin, "<", $file) or die $!; binmode $bin;
-
-my $md5sum = uc Digest::MD5->new->addfile($bin)->hexdigest; 
- 
-seek($bin, 0x1C8041, 0);
-read($bin, my $SKU, 0xA);
-
-my $FW_Version;
-
-seek($bin, 0x1C906A, 0); 
-read($bin, my $FW_Version2, 0x2);
-$FW_Version2 = uc ascii_to_hex($FW_Version2); 
-if ($FW_Version2 eq "FFFF")
-{
-	seek($bin, 0x1CA606, 0); 
-	read($bin, my $FW_Version1, 0x2);
-	$FW_Version1 = uc ascii_to_hex($FW_Version1); 
-	if ($FW_Version1 eq "FFFF")
-	{
-		$FW_Version = "N/A";
-	} 
-	else
-	{
-		$FW_Version1 = unpack "H*", reverse pack "H*", $FW_Version1;
-		$FW_Version1 = hex($FW_Version1); $FW_Version1 = uc sprintf("%x", $FW_Version1);
-		$FW_Version = substr($FW_Version1, 0, 1) . "." . substr($FW_Version1, 1);
-	}
-} 
-else
-{
-	$FW_Version2 = unpack "H*", reverse pack "H*", $FW_Version2;
-	$FW_Version2 = hex($FW_Version2); $FW_Version2 = uc sprintf("%x", $FW_Version2);
-	$FW_Version = substr($FW_Version2, 0, 1) . "." . substr($FW_Version2, 1);
-}
-
-if ($option6selection eq "2") {
-		print F "$md5sum - $file\n";
-	}
-	elsif ($option6selection eq "3") {
-		print F "$md5sum\n";
-	}
-	else {
-		print F "$md5sum - $FW_Version - $SKU - $file\n";
-	}
-
-}
-close(F); 
-print $clear_screen;
-print $BwE;
-print "Mission Complete!";
-my $opensysfile = system("output.txt");
-goto EOF;
-} 
-
-#******************************************************************************************
-#******************************************************************************************
-
-elsif ($option eq "7") {
-
-print "\nChoose Output Type:\n\n";
 print "1. Entropy - FF Count - 00 Count - Version - SKU - Filename\n";
 print "2. Entropy - FF Count - 00 Count - Filename\n";
 print "2. Entropy - FF Count - 00 Count\n\n";
@@ -982,7 +912,6 @@ goto EOF;
 
 #******************************************************************************************
 #******************************************************************************************
-
 
 else {goto EOF;}
 
