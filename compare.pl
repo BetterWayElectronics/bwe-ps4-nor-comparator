@@ -744,7 +744,7 @@ elsif ($option eq "7") {
 print "\nChoose Output Type:\n\n";
 print "1. Entropy - FF Count - 00 Count - Version - SKU - Filename\n";
 print "2. Entropy - FF Count - 00 Count - Filename\n";
-print "2. Entropy - FF Count - 00 Count\n\n";
+print "3. Entropy - FF Count - 00 Count\n\n";
 print "Your Selection (1-3): ";
 
 my $option7selection = <STDIN>; chomp $option7selection; 
