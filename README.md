@@ -13,6 +13,15 @@ Note, you do not have to put '0x' in front of offsets, you can if you want but l
 
 ### Menu Options: ###
 
+#### Filter Menu: ####
+
+1. Compare Specific Version Only
+2. Compare Specific SKU Only
+3. Compare Specific Version & SKU Only
+4. Compare All Dumps
+
+#### Main Menu: ####
+
 1. Compare Offsets (Hex)
 
 	You will be asked for an offset and then the length. An example of this would be '1CD601' and then the length '8'.
@@ -51,14 +60,15 @@ Note, you do not have to put '0x' in front of offsets, you can if you want but l
 	This will create a basic list of the MD5 of every dump.
 
 ### Version History: ###
-- 1.8 (07/11/22) - Added Filter (By SKU, By Version, All Dumps), Mild Fix To Menu
-- 1.7 (05/06/22) - Improved File Handling, Fixed MD5 Calculation Mistake (Option 3)
-- 1.6 (23/06/21) - Added ASCII Output, Fixed $file Outputs On Screen.
-- 1.5 (13/01/21) - Added Output Options, Added Statistics, Minor Code Change
-- 1.4 (21/03/20) - Added Dynamic MD5 Comparison & Fine Tuning!
-- 1.2 (02/03/19) - Added FW/BIOS Versioning & Made Outputs (Slightly) Prettier.
-- 1.1 (20/01/19) - Whoops! Fixed Bug. Added Additional Comparison.
-- 1.0 (19/01/19) - First Release!
+- 1.09 (13/11/22) - Added Filter (Version & SKU), Added Colourization To Found Dumps
+- 1.08 (07/11/22) - Added Filter (By SKU, By Version, All Dumps), Mild Fix To Menu
+- 1.07 (05/06/22) - Improved File Handling, Fixed MD5 Calculation Mistake (Option 3)
+- 1.06 (23/06/21) - Added ASCII Output, Fixed $file Outputs On Screen.
+- 1.05 (13/01/21) - Added Output Options, Added Statistics, Minor Code Change
+- 1.04 (21/03/20) - Added Dynamic MD5 Comparison & Fine Tuning!
+- 1.02 (02/03/19) - Added FW/BIOS Versioning & Made Outputs (Slightly) Prettier.
+- 1.01 (20/01/19) - Whoops! Fixed Bug. Added Additional Comparison.
+- 1.00 (19/01/19) - First Release!
 
 ### More Information: ###
 - Compiled Version: https://betterwayelectronics.com.au/downloads/BwE_PS4_NOR_Comparator.rar
