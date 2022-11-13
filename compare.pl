@@ -29,7 +29,7 @@ my $BwE = (colored ['bold red'], qq{
 |             |    |  _//  \\/ \\/  /|  __)_                |
 |             |    |   \\\\        //       \\               |
 |             |______  / \\__/\\__//______  /               |
-|                    \\/PS4 NOR Comparator\\/v1.8           |
+|                    \\/PS4 NOR Comparator\\/v1.09          |
 |        		                                  |
 ===========================================================\n\n});
 print $BwE;
@@ -120,7 +120,8 @@ print "You will be comparing $dumpcount dumps!\n\n";
 
 print "1. Compare Specific Version Only\n";
 print "2. Compare Specific SKU Only\n";
-print "3. Compare All Dumps\n";
+print "3. Compare Specific Version & SKU Only\n";
+print "4. Compare All Dumps\n";
 
 print "\nChoose Option: "; 
 my $specific_option = <STDIN>; chomp $specific_option; 
@@ -131,6 +132,7 @@ print $BwE;
 my @array;
 my @files_version=();
 my @files_sku=();
+my @files_combo=();
 
 if ($specific_option eq "1") {
 	
@@ -172,12 +174,12 @@ if ($specific_option eq "1") {
 		
 		if ($specific_version eq $FW_Version) {
 			push (@files_version, $file);
-			print "\n$file has $FW_Version";
+			print "\n", (colored ['bold green'], "$file has $FW_Version");
 		}
 	}
 	
 	@array = @files_version;
-
+	
 } elsif ($specific_option eq "2") {
 	
 	print "Enter first two digits of SKU (Example: 72 for CUH-7201B): ";
@@ -196,13 +198,69 @@ if ($specific_option eq "1") {
 		
 		if ($specific_sku eq $shortsku) {
 			push (@files_sku, $file);
-			print "\n$file has $SKU";
+			print "\n", (colored ['bold green'], "$file has $SKU");
 		}
 	}
 	
 	@array = @files_sku;
 
 } elsif ($specific_option eq "3") {
+	
+	print "Enter version (Example: 3.50): ";
+	my $specific_version = <STDIN>; chomp $specific_version; 	
+	
+	print "\nEnter first two digits of SKU (Example: 72 for CUH-7201B): ";
+	my $specific_sku = <STDIN>; chomp $specific_sku; 	
+	
+	print "\n"; 
+	
+	foreach my $file (@files) { ### Calculating $file Version... 
+		open(my $bin, "<", $file) or die $!; binmode $bin;
+		
+		my $FW_Version;
+
+		seek($bin, 0x1C906A, 0); 
+		read($bin, my $FW_Version2, 0x2);
+		$FW_Version2 = uc ascii_to_hex($FW_Version2); 
+		if ($FW_Version2 eq "FFFF")
+		{
+			seek($bin, 0x1CA606, 0); 
+			read($bin, my $FW_Version1, 0x2);
+			$FW_Version1 = uc ascii_to_hex($FW_Version1); 
+			if ($FW_Version1 eq "FFFF")
+			{
+				$FW_Version = "N/A";
+			} 
+			else
+			{
+				$FW_Version1 = unpack "H*", reverse pack "H*", $FW_Version1;
+				$FW_Version1 = hex($FW_Version1); $FW_Version1 = uc sprintf("%x", $FW_Version1);
+				$FW_Version = substr($FW_Version1, 0, 1) . "." . substr($FW_Version1, 1);
+			}
+		} 
+		else
+		{
+			$FW_Version2 = unpack "H*", reverse pack "H*", $FW_Version2;
+			$FW_Version2 = hex($FW_Version2); $FW_Version2 = uc sprintf("%x", $FW_Version2);
+			$FW_Version = substr($FW_Version2, 0, 1) . "." . substr($FW_Version2, 1);
+		}
+		
+		#SKU
+		seek($bin, 0x1C8041, 0);
+		read($bin, my $SKU, 0xA);
+		
+		seek($bin, 0x1C8045, 0);
+		read($bin, my $shortsku, 0x2);
+		
+		if ($specific_version eq $FW_Version && $specific_sku eq $shortsku) {
+			push (@files_combo, $file);
+			print "\n", (colored ['bold green'], "$file has $FW_Version and $SKU");
+		}
+	}
+	
+	@array = @files_combo;
+
+} elsif ($specific_option eq "4") {
 	
 	@array = @files;
 	
