@@ -60,6 +60,7 @@ Note, you do not have to put '0x' in front of offsets, you can if you want but l
 	This will create a basic list of the MD5 of every dump.
 
 ### Version History: ###
+- 1.10 (5/1/23) - Fixed Firmware Detection (v10+)
 - 1.09 (13/11/22) - Added Filter (Version & SKU), Added Colourization To Found Dumps
 - 1.08 (07/11/22) - Added Filter (By SKU, By Version, All Dumps), Mild Fix To Menu
 - 1.07 (05/06/22) - Improved File Handling, Fixed MD5 Calculation Mistake (Option 3)
