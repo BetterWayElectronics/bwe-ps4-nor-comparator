@@ -158,19 +158,28 @@ if ($specific_option eq "1") {
 			{
 				$FW_Version = "N/A";
 			} 
-			else
+		else
 			{
 				$FW_Version1 = unpack "H*", reverse pack "H*", $FW_Version1;
 				$FW_Version1 = hex($FW_Version1); $FW_Version1 = uc sprintf("%x", $FW_Version1);
+				if (substr($FW_Version1, 0, 1) eq "1") {
+				$FW_Version = substr($FW_Version1, 0, 2) . "." . substr($FW_Version1, 2, 2);
+				} else {
 				$FW_Version = substr($FW_Version1, 0, 1) . "." . substr($FW_Version1, 1);
+				}
 			}
 		} 
 		else
 		{
 			$FW_Version2 = unpack "H*", reverse pack "H*", $FW_Version2;
 			$FW_Version2 = hex($FW_Version2); $FW_Version2 = uc sprintf("%x", $FW_Version2);
+			if (substr($FW_Version2, 0, 1) eq "1") {
+			$FW_Version = substr($FW_Version2, 0, 2) . "." . substr($FW_Version2, 2, 2);
+			} else {
 			$FW_Version = substr($FW_Version2, 0, 1) . "." . substr($FW_Version2, 1);
+			}
 		}
+		
 		
 		if ($specific_version eq $FW_Version) {
 			push (@files_version, $file);
@@ -231,19 +240,28 @@ if ($specific_option eq "1") {
 			{
 				$FW_Version = "N/A";
 			} 
-			else
+		else
 			{
 				$FW_Version1 = unpack "H*", reverse pack "H*", $FW_Version1;
 				$FW_Version1 = hex($FW_Version1); $FW_Version1 = uc sprintf("%x", $FW_Version1);
+				if (substr($FW_Version1, 0, 1) eq "1") {
+				$FW_Version = substr($FW_Version1, 0, 2) . "." . substr($FW_Version1, 2, 2);
+				} else {
 				$FW_Version = substr($FW_Version1, 0, 1) . "." . substr($FW_Version1, 1);
+				}
 			}
 		} 
 		else
 		{
 			$FW_Version2 = unpack "H*", reverse pack "H*", $FW_Version2;
 			$FW_Version2 = hex($FW_Version2); $FW_Version2 = uc sprintf("%x", $FW_Version2);
+			if (substr($FW_Version2, 0, 1) eq "1") {
+			$FW_Version = substr($FW_Version2, 0, 2) . "." . substr($FW_Version2, 2, 2);
+			} else {
 			$FW_Version = substr($FW_Version2, 0, 1) . "." . substr($FW_Version2, 1);
+			}
 		}
+		
 		
 		#SKU
 		seek($bin, 0x1C8041, 0);
@@ -340,19 +358,27 @@ if ($FW_Version2 eq "FFFF")
 	{
 		$FW_Version = "N/A";
 	} 
-	else
-	{
-		$FW_Version1 = unpack "H*", reverse pack "H*", $FW_Version1;
-		$FW_Version1 = hex($FW_Version1); $FW_Version1 = uc sprintf("%x", $FW_Version1);
-		$FW_Version = substr($FW_Version1, 0, 1) . "." . substr($FW_Version1, 1);
-	}
-} 
-else
-{
-	$FW_Version2 = unpack "H*", reverse pack "H*", $FW_Version2;
-	$FW_Version2 = hex($FW_Version2); $FW_Version2 = uc sprintf("%x", $FW_Version2);
-	$FW_Version = substr($FW_Version2, 0, 1) . "." . substr($FW_Version2, 1);
-}
+		else
+			{
+				$FW_Version1 = unpack "H*", reverse pack "H*", $FW_Version1;
+				$FW_Version1 = hex($FW_Version1); $FW_Version1 = uc sprintf("%x", $FW_Version1);
+				if (substr($FW_Version1, 0, 1) eq "1") {
+				$FW_Version = substr($FW_Version1, 0, 2) . "." . substr($FW_Version1, 2, 2);
+				} else {
+				$FW_Version = substr($FW_Version1, 0, 1) . "." . substr($FW_Version1, 1);
+				}
+			}
+		} 
+		else
+		{
+			$FW_Version2 = unpack "H*", reverse pack "H*", $FW_Version2;
+			$FW_Version2 = hex($FW_Version2); $FW_Version2 = uc sprintf("%x", $FW_Version2);
+			if (substr($FW_Version2, 0, 1) eq "1") {
+			$FW_Version = substr($FW_Version2, 0, 2) . "." . substr($FW_Version2, 2, 2);
+			} else {
+			$FW_Version = substr($FW_Version2, 0, 1) . "." . substr($FW_Version2, 1);
+			}
+		}
 
 if ($option1selection eq "2") {
 		print F "$result - $file\n";
@@ -420,19 +446,27 @@ if ($FW_Version2 eq "FFFF")
 	{
 		$FW_Version = "N/A";
 	} 
-	else
-	{
-		$FW_Version1 = unpack "H*", reverse pack "H*", $FW_Version1;
-		$FW_Version1 = hex($FW_Version1); $FW_Version1 = uc sprintf("%x", $FW_Version1);
-		$FW_Version = substr($FW_Version1, 0, 1) . "." . substr($FW_Version1, 1);
-	}
-} 
-else
-{
-	$FW_Version2 = unpack "H*", reverse pack "H*", $FW_Version2;
-	$FW_Version2 = hex($FW_Version2); $FW_Version2 = uc sprintf("%x", $FW_Version2);
-	$FW_Version = substr($FW_Version2, 0, 1) . "." . substr($FW_Version2, 1);
-}
+			else
+			{
+				$FW_Version1 = unpack "H*", reverse pack "H*", $FW_Version1;
+				$FW_Version1 = hex($FW_Version1); $FW_Version1 = uc sprintf("%x", $FW_Version1);
+				if (substr($FW_Version1, 0, 1) eq "1") {
+				$FW_Version = substr($FW_Version1, 0, 2) . "." . substr($FW_Version1, 2, 2);
+				} else {
+				$FW_Version = substr($FW_Version1, 0, 1) . "." . substr($FW_Version1, 1);
+				}
+			}
+		} 
+		else
+		{
+			$FW_Version2 = unpack "H*", reverse pack "H*", $FW_Version2;
+			$FW_Version2 = hex($FW_Version2); $FW_Version2 = uc sprintf("%x", $FW_Version2);
+			if (substr($FW_Version2, 0, 1) eq "1") {
+			$FW_Version = substr($FW_Version2, 0, 2) . "." . substr($FW_Version2, 2, 2);
+			} else {
+			$FW_Version = substr($FW_Version2, 0, 1) . "." . substr($FW_Version2, 1);
+			}
+		}
 
 if ($option1selection eq "2") {
 		print F "$result - $file\n";
@@ -501,19 +535,27 @@ if ($FW_Version2 eq "FFFF")
 	{
 		$FW_Version = "N/A";
 	} 
-	else
-	{
-		$FW_Version1 = unpack "H*", reverse pack "H*", $FW_Version1;
-		$FW_Version1 = hex($FW_Version1); $FW_Version1 = uc sprintf("%x", $FW_Version1);
-		$FW_Version = substr($FW_Version1, 0, 1) . "." . substr($FW_Version1, 1);
-	}
-} 
-else
-{
-	$FW_Version2 = unpack "H*", reverse pack "H*", $FW_Version2;
-	$FW_Version2 = hex($FW_Version2); $FW_Version2 = uc sprintf("%x", $FW_Version2);
-	$FW_Version = substr($FW_Version2, 0, 1) . "." . substr($FW_Version2, 1);
-}
+		else
+			{
+				$FW_Version1 = unpack "H*", reverse pack "H*", $FW_Version1;
+				$FW_Version1 = hex($FW_Version1); $FW_Version1 = uc sprintf("%x", $FW_Version1);
+				if (substr($FW_Version1, 0, 1) eq "1") {
+				$FW_Version = substr($FW_Version1, 0, 2) . "." . substr($FW_Version1, 2, 2);
+				} else {
+				$FW_Version = substr($FW_Version1, 0, 1) . "." . substr($FW_Version1, 1);
+				}
+			}
+		} 
+		else
+		{
+			$FW_Version2 = unpack "H*", reverse pack "H*", $FW_Version2;
+			$FW_Version2 = hex($FW_Version2); $FW_Version2 = uc sprintf("%x", $FW_Version2);
+			if (substr($FW_Version2, 0, 1) eq "1") {
+			$FW_Version = substr($FW_Version2, 0, 2) . "." . substr($FW_Version2, 2, 2);
+			} else {
+			$FW_Version = substr($FW_Version2, 0, 1) . "." . substr($FW_Version2, 1);
+			}
+		}
 
 if ($option2selection eq "2") {
 		print F "$result_MD5 - $file\n";
@@ -584,19 +626,27 @@ if ($FW_Version2 eq "FFFF")
 	{
 		$FW_Version = "N/A";
 	} 
-	else
-	{
-		$FW_Version1 = unpack "H*", reverse pack "H*", $FW_Version1;
-		$FW_Version1 = hex($FW_Version1); $FW_Version1 = uc sprintf("%x", $FW_Version1);
-		$FW_Version = substr($FW_Version1, 0, 1) . "." . substr($FW_Version1, 1);
-	}
-} 
-else
-{
-	$FW_Version2 = unpack "H*", reverse pack "H*", $FW_Version2;
-	$FW_Version2 = hex($FW_Version2); $FW_Version2 = uc sprintf("%x", $FW_Version2);
-	$FW_Version = substr($FW_Version2, 0, 1) . "." . substr($FW_Version2, 1);
-}
+		else
+			{
+				$FW_Version1 = unpack "H*", reverse pack "H*", $FW_Version1;
+				$FW_Version1 = hex($FW_Version1); $FW_Version1 = uc sprintf("%x", $FW_Version1);
+				if (substr($FW_Version1, 0, 1) eq "1") {
+				$FW_Version = substr($FW_Version1, 0, 2) . "." . substr($FW_Version1, 2, 2);
+				} else {
+				$FW_Version = substr($FW_Version1, 0, 1) . "." . substr($FW_Version1, 1);
+				}
+			}
+		} 
+		else
+		{
+			$FW_Version2 = unpack "H*", reverse pack "H*", $FW_Version2;
+			$FW_Version2 = hex($FW_Version2); $FW_Version2 = uc sprintf("%x", $FW_Version2);
+			if (substr($FW_Version2, 0, 1) eq "1") {
+			$FW_Version = substr($FW_Version2, 0, 2) . "." . substr($FW_Version2, 2, 2);
+			} else {
+			$FW_Version = substr($FW_Version2, 0, 1) . "." . substr($FW_Version2, 1);
+			}
+		}
  
 if ($option3selection eq "2") {
 		print F "$result - $file\n";
@@ -671,19 +721,27 @@ if ($FW_Version2 eq "FFFF")
 	{
 		$FW_Version = "N/A";
 	} 
-	else
-	{
-		$FW_Version1 = unpack "H*", reverse pack "H*", $FW_Version1;
-		$FW_Version1 = hex($FW_Version1); $FW_Version1 = uc sprintf("%x", $FW_Version1);
-		$FW_Version = substr($FW_Version1, 0, 1) . "." . substr($FW_Version1, 1);
-	}
-} 
-else
-{
-	$FW_Version2 = unpack "H*", reverse pack "H*", $FW_Version2;
-	$FW_Version2 = hex($FW_Version2); $FW_Version2 = uc sprintf("%x", $FW_Version2);
-	$FW_Version = substr($FW_Version2, 0, 1) . "." . substr($FW_Version2, 1);
-}
+		else
+			{
+				$FW_Version1 = unpack "H*", reverse pack "H*", $FW_Version1;
+				$FW_Version1 = hex($FW_Version1); $FW_Version1 = uc sprintf("%x", $FW_Version1);
+				if (substr($FW_Version1, 0, 1) eq "1") {
+				$FW_Version = substr($FW_Version1, 0, 2) . "." . substr($FW_Version1, 2, 2);
+				} else {
+				$FW_Version = substr($FW_Version1, 0, 1) . "." . substr($FW_Version1, 1);
+				}
+			}
+		} 
+		else
+		{
+			$FW_Version2 = unpack "H*", reverse pack "H*", $FW_Version2;
+			$FW_Version2 = hex($FW_Version2); $FW_Version2 = uc sprintf("%x", $FW_Version2);
+			if (substr($FW_Version2, 0, 1) eq "1") {
+			$FW_Version = substr($FW_Version2, 0, 2) . "." . substr($FW_Version2, 2, 2);
+			} else {
+			$FW_Version = substr($FW_Version2, 0, 1) . "." . substr($FW_Version2, 1);
+			}
+		}
 
 if ($option4selection eq "2") {
 		print F "$result - $result2 - $file\n";
@@ -760,19 +818,27 @@ if ($FW_Version2 eq "FFFF")
 	{
 		$FW_Version = "N/A";
 	} 
-	else
-	{
-		$FW_Version1 = unpack "H*", reverse pack "H*", $FW_Version1;
-		$FW_Version1 = hex($FW_Version1); $FW_Version1 = uc sprintf("%x", $FW_Version1);
-		$FW_Version = substr($FW_Version1, 0, 1) . "." . substr($FW_Version1, 1);
-	}
-} 
-else
-{
-	$FW_Version2 = unpack "H*", reverse pack "H*", $FW_Version2;
-	$FW_Version2 = hex($FW_Version2); $FW_Version2 = uc sprintf("%x", $FW_Version2);
-	$FW_Version = substr($FW_Version2, 0, 1) . "." . substr($FW_Version2, 1);
-}
+		else
+			{
+				$FW_Version1 = unpack "H*", reverse pack "H*", $FW_Version1;
+				$FW_Version1 = hex($FW_Version1); $FW_Version1 = uc sprintf("%x", $FW_Version1);
+				if (substr($FW_Version1, 0, 1) eq "1") {
+				$FW_Version = substr($FW_Version1, 0, 2) . "." . substr($FW_Version1, 2, 2);
+				} else {
+				$FW_Version = substr($FW_Version1, 0, 1) . "." . substr($FW_Version1, 1);
+				}
+			}
+		} 
+		else
+		{
+			$FW_Version2 = unpack "H*", reverse pack "H*", $FW_Version2;
+			$FW_Version2 = hex($FW_Version2); $FW_Version2 = uc sprintf("%x", $FW_Version2);
+			if (substr($FW_Version2, 0, 1) eq "1") {
+			$FW_Version = substr($FW_Version2, 0, 2) . "." . substr($FW_Version2, 2, 2);
+			} else {
+			$FW_Version = substr($FW_Version2, 0, 1) . "." . substr($FW_Version2, 1);
+			}
+		}
 
 if ($option5selection eq "2") {
 		print F "$DynSize - $DynMD5\n";
@@ -865,19 +931,27 @@ if ($FW_Version2 eq "FFFF")
 	{
 		$FW_Version = "N/A";
 	} 
-	else
-	{
-		$FW_Version1 = unpack "H*", reverse pack "H*", $FW_Version1;
-		$FW_Version1 = hex($FW_Version1); $FW_Version1 = uc sprintf("%x", $FW_Version1);
-		$FW_Version = substr($FW_Version1, 0, 1) . "." . substr($FW_Version1, 1);
-	}
-} 
-else
-{
-	$FW_Version2 = unpack "H*", reverse pack "H*", $FW_Version2;
-	$FW_Version2 = hex($FW_Version2); $FW_Version2 = uc sprintf("%x", $FW_Version2);
-	$FW_Version = substr($FW_Version2, 0, 1) . "." . substr($FW_Version2, 1);
-}
+		else
+			{
+				$FW_Version1 = unpack "H*", reverse pack "H*", $FW_Version1;
+				$FW_Version1 = hex($FW_Version1); $FW_Version1 = uc sprintf("%x", $FW_Version1);
+				if (substr($FW_Version1, 0, 1) eq "1") {
+				$FW_Version = substr($FW_Version1, 0, 2) . "." . substr($FW_Version1, 2, 2);
+				} else {
+				$FW_Version = substr($FW_Version1, 0, 1) . "." . substr($FW_Version1, 1);
+				}
+			}
+		} 
+		else
+		{
+			$FW_Version2 = unpack "H*", reverse pack "H*", $FW_Version2;
+			$FW_Version2 = hex($FW_Version2); $FW_Version2 = uc sprintf("%x", $FW_Version2);
+			if (substr($FW_Version2, 0, 1) eq "1") {
+			$FW_Version = substr($FW_Version2, 0, 2) . "." . substr($FW_Version2, 2, 2);
+			} else {
+			$FW_Version = substr($FW_Version2, 0, 1) . "." . substr($FW_Version2, 1);
+			}
+		}
  
 if ($option7selection eq "2") {
 		print F "$result ($result_percent%) - $counts[0xFF] ($FFCountPercent%) - $counts[0x00] ($NullCountPercent%) - $file\n";
@@ -935,20 +1009,27 @@ if ($FW_Version2 eq "FFFF")
 	{
 		$FW_Version = "N/A";
 	} 
-	else
-	{
-		$FW_Version1 = unpack "H*", reverse pack "H*", $FW_Version1;
-		$FW_Version1 = hex($FW_Version1); $FW_Version1 = uc sprintf("%x", $FW_Version1);
-		$FW_Version = substr($FW_Version1, 0, 1) . "." . substr($FW_Version1, 1);
-	}
-} 
-else
-{
-	$FW_Version2 = unpack "H*", reverse pack "H*", $FW_Version2;
-	$FW_Version2 = hex($FW_Version2); $FW_Version2 = uc sprintf("%x", $FW_Version2);
-	$FW_Version = substr($FW_Version2, 0, 1) . "." . substr($FW_Version2, 1);
-}
-
+		else
+			{
+				$FW_Version1 = unpack "H*", reverse pack "H*", $FW_Version1;
+				$FW_Version1 = hex($FW_Version1); $FW_Version1 = uc sprintf("%x", $FW_Version1);
+				if (substr($FW_Version1, 0, 1) eq "1") {
+				$FW_Version = substr($FW_Version1, 0, 2) . "." . substr($FW_Version1, 2, 2);
+				} else {
+				$FW_Version = substr($FW_Version1, 0, 1) . "." . substr($FW_Version1, 1);
+				}
+			}
+		} 
+		else
+		{
+			$FW_Version2 = unpack "H*", reverse pack "H*", $FW_Version2;
+			$FW_Version2 = hex($FW_Version2); $FW_Version2 = uc sprintf("%x", $FW_Version2);
+			if (substr($FW_Version2, 0, 1) eq "1") {
+			$FW_Version = substr($FW_Version2, 0, 2) . "." . substr($FW_Version2, 2, 2);
+			} else {
+			$FW_Version = substr($FW_Version2, 0, 1) . "." . substr($FW_Version2, 1);
+			}
+		}
 if ($option6selection eq "2") {
 		print F "$md5sum - $file\n";
 	}
