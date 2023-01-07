@@ -74,4 +74,4 @@ Note, you do not have to put '0x' in front of offsets, you can if you want but l
 ### More Information: ###
 - Compiled Version: https://betterwayelectronics.com.au/downloads/BwE_PS4_NOR_Comparator.rar
 - Archive Password: BwE
-- Program MD5: 738FB40995A1AB0DC5EE87E4BCD3BE89
+- Program MD5: 2AF1A636E64E2C4E92DDA85A869EDA8C
